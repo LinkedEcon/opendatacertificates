@@ -18,8 +18,7 @@ Steps:
  <a href="http://certificates.theodi.org" title="{{ _('ODI Certificates') }}">          
                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
                        <div id="certs"> Loading... </div>                        
-                       <script>
-                       function getUrlVars(){ var vars = [], hash; var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&'); for(var i = 0; i < hashes.length; i++) { hash = hashes[i].split('='); vars[i]=hash[1]; } return vars; }
+                       <script>                       
                        function glast(){ a = window.location.href; c=0; for(i=1;i<a.length;i++) { if(a.substring(a.length-i-1,a.length-i)=='/')  { c = a.substring(a.length-i,a.length); break; } } return c; } 
                        var ur="<link to the getcert.php file here>?ur=" + glast() + "&url1=<link to your certificates csv file here>&url2=<link to your certificates csv file here>";
                        $.get(ur, null,function(data) { $("#certs").html(data); });                    

@@ -1,7 +1,7 @@
 # opendatacertificates
 Automation for Open Data Certificates (https://certificates.theodi.org/en/) in Greek. 
 
-
+v1.0
     
 This module provides a simple connection to CKAN with the ODI Certificates using the .csv files produced from your campaigns pages(e.g. https://certificates.theodi.org/campaigns/32).
 

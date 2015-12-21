@@ -32,3 +32,5 @@ Where:
 
 ```<link to your certificates csv file here>```: is the link to the certificates csv file. If you have only one, just use only the url1 attribute. If you have two or more csv’s add them as &url2=…..   &url3=…….  etc. 
 <br><br> 4.   The connection should be working now. If it’s not working you may consider to be advised from my files which can be found in the example folder.
+
+<br><br> 5.   You should turn the debug off inside the getcert.php file so you won't see anymore the debug info on your page.

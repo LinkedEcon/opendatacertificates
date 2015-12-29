@@ -1,5 +1,5 @@
 # opendatacertificates
-Automation for Open Data Certificates (https://certificates.theodi.org/en/) in Greek. 
+Automation for Open Data Certificates (https://certificates.theodi.org/en/). 
 
 v1.0
     
@@ -11,7 +11,7 @@ Steps:
 
 2.	Place the csv file(s) of your campaigns in the same folder as the getcert.php
 
-3.	Place the following code to the file license.html (ckan/templates/snippets/license.html)
+3.	Place the following code to the file license.html (ckan/templates/snippets/license.html). You may choose a different place.
      
 
 ```
@@ -32,5 +32,13 @@ Where:
 
 ```<link to your certificates csv file here>```: is the link to the certificates csv file. If you have only one, just use only the url1 attribute. If you have two or more csv’s add them as &url2=…..   &url3=…….  etc. 
 <br><br> 4.   The connection should be working now. If it’s not working you may consider to be advised from my files which can be found in the example folder.
+<br><br> 5.   Options in getcert.php file:
+```
+//options start
+$debug='off';     // on/off, if it works, change this value to 'off', so that you don't recieve debug messages
+$method=-1;     // -1/0/1/2/3,  choose a method to read the js file containing the certificate info, 
+               //            VALUES:  -1:test all methods,0:cURL,1:fopen,2:file_get_contents,3:http_get()
+//options end
+```
 
-<br><br> 5.   You should turn the debug off inside the getcert.php file so you won't see anymore the debug info on your page.
+You should turn the debug off inside the getcert.php file so you won't see anymore the debug info on your page. You may change the method to the one that works, so it could be more responsive.

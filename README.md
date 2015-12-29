@@ -41,4 +41,4 @@ $method=-1;     // -1/0/1/2/3,  choose a method to read the js file containing t
 //options end
 ```
 
-You should turn the debug off inside the getcert.php file so you won't see anymore the debug info on your page. You may change the method to the one that works, so it could be more responsive.
+You should turn the debug off inside the getcert.php file so you won't see anymore the debug info on your page. You may change the method to the one that works, so it could be more responsive. I've implemented different methods because of the different server/php configurations.

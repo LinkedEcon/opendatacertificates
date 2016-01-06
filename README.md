@@ -11,7 +11,7 @@ Steps:
 
 2.	Place the csv file(s) of your campaigns in the same folder as the getcert.php
 
-3.	Place the following code to the file license.html (ckan/templates/snippets/license.html). You may choose a different place.
+3.	Place the following code into the file "license.html" (ckan/templates/snippets/license.html). You may choose a different place, "organization.html" is also a good pick.
      
 
 ```

@@ -11,11 +11,10 @@ if($debug=='on') echo '<p style="color:red;">-php file loaded succesfully</p>';
 
 $getype=0;
 $ferror=0;
-$raw='Raw Open Data Certificate';
-$pilot='Pilot Open Data Certificate';
-$standard='Standard Open Data Certificate';
-$expert='Expert Open Data Certificate';
-$autom='automatically awarded';
+$raw='Bronze Open Data Certificate';
+$pilot='Silver Open Data Certificate';
+$standard='Gold Open Data Certificate';
+$expert='Platinum Open Data Certificate';
 $success="false";
 ini_set("allow_url_fopen", true);
 

@@ -1,12 +1,11 @@
 <?php
 //header("Access-Control-Allow-Origin: http://ckan.linkedeconomy.org");  //uncomment and change the header if it is needed for cross-origin issues
 
-
 //options start
 $debug='off';     // on/off, if it works, change this value to 'off', so that it will not display debug messages anymore
 $method=-1;       // -1/0/1/2/3,  choose a method to read the js file containing the certificate info, VALUES:  -1:try all methods,0:cURL,1:fopen,2:file_get_contents,3:http_get()
-$projection=1;    // 0/1,   choose a method to show the badge   0:our implementation, 1:ODI implementation
-$size=100;         // 0 to 100,   set the size of the badge and letters
+$projection=0;    // 0/1,   choose a method to show the badge   0:our implementation, 1:ODI implementation
+$size=90;         // set the size of the badge and letters, default is 100
 //options end
 
 if($debug=='on') echo '<p style="color:green;">-php file loaded succesfully</p>';
@@ -68,13 +67,20 @@ function check_state($state) {
         return $r_txt;
 }
 
+function f_name_odi($urlf) {
+
+     $pos = explode('<span>', $urlf);
+     $pos = explode('<\/span>', $pos[1]);
+     return $pos[0];
+}
+
 function projection1($url, $nm) {     
     
-    global $raw, $expert, $standard, $pilot, $size;
-    $bgurlf = file_get_contents($url);
+    global $raw, $expert, $standard, $pilot, $size, $debug, $ferror;
+    $bgurlf = $url;
     
     echo '<div class=\'open-data-certificate\'> <style>@import url(https://certificates.theodi.org/assets/badge.css);
-</style><a href="https://certificates.theodi.org/en/datasets' . $nm . '/certificate">  <img alt="Badge" src="https://certificates.theodi.org/en/datasets' . $nm . '/certificate/badge.png" style="width:' . ($size-50) . '%;height:' . ($size-50) . '%;" /> </a><ul class=\'open-data-certificate-details\'> <li><span> </span> </li> <li> <span><font style="font-size:' . $size . '%;text-align:left;">';
+</style><a href="https://certificates.theodi.org/en/datasets' . $nm . '/certificate">  <img alt="Badge" src="https://certificates.theodi.org/en/datasets' . $nm . '/certificate/badge.png" style="width:' . ($size-50) . '%;height:' . ($size-50) . '%;" /> </a><ul class=\'open-data-certificate-details\'> <li><span>'. f_name_odi($bgurlf) . '</span> </li> <li> <span><font style="font-size:' . $size . '%;text-align:left;">';
     $pos = strpos($bgurlf, $raw);
                      if($pos===false) {
                         $pos = strpos($bgurlf, $pilot);
@@ -90,6 +96,10 @@ function projection1($url, $nm) {
                         }else echo $raw;
 
 echo '</font></span> </li> <li><font style="font-size:' . $size . '%;"> <span>Active - automatically awarded</span></font> </li> </ul></div><br><br><br>';
+
+
+if($debug=='on') echo check_state($ferror);
+if($debug=='on') echo '<p style="color:grey;">-Debug is ON, if you don\'t want to see this text please change the value of the $debug variable to OFF.</p>';
 
 }
 
@@ -109,11 +119,7 @@ for($i=1;$i<200;$i++) {
               $res3 = checkline($res2);      
               if($res3!="false") {
                    if($debug=='on') echo '<p style="color:green;"> -connection found in line #' . $j . '</p>';                
-                   $jsurl= 'https://certificates.theodi.org/en/datasets' . $res3 . '/certificate/badge.js';  
-                   if($projection==1) {
-                                 projection1($jsurl, $res3);
-                                 return;
-                                 }
+                   $jsurl= 'https://certificates.theodi.org/en/datasets' . $res3 . '/certificate/badge.js';                    
                    if($debug=='on') echo '<p style="color:grey;">----trying_methods_to_read_url:_' . $jsurl . '<br>';                
                    if($method!=-1) $getype=$method;
                    if($getype==0) {
@@ -158,9 +164,13 @@ for($i=1;$i<200;$i++) {
 	                    	 if($debug=='on') echo '<p style="color:red;"> failed to open file ' . '</p>'; 
                              if($method==-1) $getype=0;
 		                     }
-                    }
+                    }                  
 
                     if ($bgurl=='') {if($debug=='on') echo '<p style="color:red;">-dataset #' . $res3 . ' No method could read certificate info, Possible reasons: <br> i) It does not exist(check your csv file)<br> ii) Open Data Server is down<br> iii) A different method is needed<br> iv) Enable extension=php_http.dll or extension=php_curl.dll in your php.ini file </p>'; $ferror=1;} else if($debug=='on') echo '<p style="color:green;">-Certificate info loaded</p>';
+                    if($projection==1) {
+                                 projection1($bgurl, $res3);
+                                 return;
+                                 }
                     echo '<p style="text-align:center;"><a href="https://certificates.theodi.org/en/datasets' . $res3 . '/certificate" target="_blank"><img style="width:' . ($size-30) . '%;height:' . ($size-30) . '%;" src="' . 'https://certificates.theodi.org/en/datasets' . $res3 . '/certificate/badge.png"></a>'; 
                     $res4=$res3;
                     $tmp2 = $bgurl;                  
@@ -175,7 +185,7 @@ if($success=="false" || $ferror!=0) {
 	     echo '<p></p>'; 
 		 if($debug=='on') echo '<p style="color:red;">Certificate info could not be retrieved</p>';
 		 } else {    
-                  echo '<br><a href="https://certificates.theodi.org/en/datasets' . $res4 . '/certificate" target="_blank"><table style="border-collapse: collapse;"><tr><p style="text-align:center;font-size:' . $size . '%;">';    
+                  echo '<br><a href="https://certificates.theodi.org/en/datasets' . $res4 . '/certificate" target="_blank"><table style="border-collapse: collapse;"><tr><p style="text-align:center;font-size:' . $size . '%; line-height: ' . ($size + 50) . '%;">';    
                      $pos = strpos($tmp2, $raw);
                      if($pos===false) {
                         $pos = strpos($tmp2, $pilot);
@@ -192,8 +202,8 @@ if($success=="false" || $ferror!=0) {
 
                   $pos = strpos($tmp2, $autom);
                   if($pos===false) { 
-				      echo '</p></tr><tr><p style="text-align:center; font-size:' . ($size-20) . '%;">self certified</p></tr></table>'; 
-					  } else echo '</p></tr><tr><p style="text-align:center; font-size:' . ($size-20) . '%;">' . $autom . '</p></tr></table>';
+				      echo '</p></tr><tr><p style="text-align:center; font-size:' . ($size-10) . '%; line-height: ' . ($size+50) . '%;">self certified</p></tr></table>'; 
+					  } else echo '</p></tr><tr><p style="text-align:center; font-size:' . ($size-10) . '%; line-height: ' . ($size+50) . '%;">' . $autom . '</p></tr></table>';
                   echo '</a></p>';
 }
 

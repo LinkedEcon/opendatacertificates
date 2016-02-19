@@ -1,4 +1,4 @@
-# opendatacertificates
+# Open Data Certificates
 Automation for Open Data Certificates (https://certificates.theodi.org/en/). 
 
 v1.0
